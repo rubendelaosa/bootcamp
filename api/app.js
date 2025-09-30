@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const port = 3000;
 
-const uri = 'mongodb://admin:admin123@localhost:27017';
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = 'bootcamp';
 const collectionName = 'users';
 

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-bootcamp
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: bootcamp
+
+  # API Node.js
+  api:
+    build: ./api
+    container_name: api-bootcamp
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/bootcamp
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
+volumes:
+  mongodb_data:
